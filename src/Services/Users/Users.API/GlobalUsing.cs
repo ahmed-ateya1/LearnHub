@@ -1,0 +1,9 @@
+﻿global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Users.API.Models;
+global using Carter;
+global using Users.API.Dtos;
+global using BuildingBlocks.CQRS;
+global using Users.API.Services.Contracts;
+global using Users.API.Services.Implementations;
