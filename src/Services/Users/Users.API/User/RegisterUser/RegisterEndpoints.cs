@@ -1,6 +1,4 @@
-﻿using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Users.API.User.RegisterUser
 {
@@ -8,7 +6,7 @@ namespace Users.API.User.RegisterUser
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/register", async ([FromForm] RegisterDto register, ISender sender) =>
+            app.MapPost("/api/users/register", async ([FromForm] RegisterDto register, ISender sender) =>
             {
                 var result = await sender.Send(new RegisterCommand(register));
                 if(result == null)
