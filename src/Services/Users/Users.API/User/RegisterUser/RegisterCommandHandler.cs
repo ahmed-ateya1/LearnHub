@@ -2,6 +2,23 @@
 {
     
     public record RegisterCommand(RegisterDto registerDto) : ICommand<AuthenticationResponse>;
+    public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+    {
+        public RegisterCommandValidator()
+        {
+            RuleFor(x => x.registerDto)
+                .NotNull()
+                .WithMessage("RegisterDto cannot be null");
+            RuleFor(x => x.registerDto.Email)
+                .NotEmpty()
+                .EmailAddress()
+                .WithMessage("A valid email is required");
+            RuleFor(x => x.registerDto.Password)
+                .NotEmpty()
+                .MinimumLength(6)
+                .WithMessage("Password must be at least 6 characters long");
+        }
+    }
     public class RegisterCommandHandler(IUserService userService,ILogger<RegisterCommandHandler> logger) 
         : ICommandHandler<RegisterCommand, AuthenticationResponse>
     {
@@ -17,3 +34,4 @@
         }
     }
 }
+

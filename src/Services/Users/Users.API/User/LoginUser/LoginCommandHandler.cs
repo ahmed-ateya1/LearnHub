@@ -2,6 +2,19 @@
 namespace Users.API.User.LoginUser
 {
     public record LoginCommand(LoginDto LoginDto) : ICommand<AuthenticationResponse>;
+
+    public class LoginCommandValidator : AbstractValidator<LoginCommand>
+    {
+        public LoginCommandValidator()
+        {
+            RuleFor(x => x.LoginDto.Email)
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
+            RuleFor(x => x.LoginDto.Password)
+                .NotEmpty().WithMessage("Password is required.")
+                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
+        }
+    }
     public class LoginCommandHandler(IUserService userService,ILogger<LoginCommandHandler>logger) : ICommandHandler<LoginCommand, AuthenticationResponse>
     {
         public async Task<AuthenticationResponse> 

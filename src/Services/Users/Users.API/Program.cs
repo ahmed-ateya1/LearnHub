@@ -1,5 +1,8 @@
-using Users.API.Data;
+using BuildingBlocks.Behaviors;
+using BuildingBlocks.Exceptions.Handler;
 using Microsoft.AspNetCore.Identity;
+using Users.API.Data;
+using Users.API.User.RegisterUser;
 
 namespace Users.API
 {
@@ -15,7 +18,13 @@ namespace Users.API
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddCarter();
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+            builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+            builder.Services.AddMediatR(cfg => {
+                cfg.RegisterServicesFromAssemblyContaining<Program>();
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            });
+            builder.Services.AddValidatorsFromAssemblyContaining<RegisterCommandValidator>();
+
             builder.Services.AddDbContext<UserDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("UserConnection"));
@@ -40,6 +49,8 @@ namespace Users.API
             app.UseAuthorization();
 
             app.MapCarter();
+
+            app.UseExceptionHandler(options => { });
             app.Run();
         }
     }

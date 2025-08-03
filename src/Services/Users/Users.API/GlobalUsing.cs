@@ -8,4 +8,6 @@ global using BuildingBlocks.CQRS;
 global using Users.API.Services.Contracts;
 global using Users.API.Services.Implementations;
 global using MediatR;
+global using FluentValidation;
+
 
