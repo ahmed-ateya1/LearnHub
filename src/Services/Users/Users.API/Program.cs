@@ -20,16 +20,20 @@ namespace Users.API
             builder.Services.AddOpenApi();
             builder.Services.AddCarter();
             builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+
             builder.Services.AddMediatR(cfg => {
                 cfg.RegisterServicesFromAssemblyContaining<Program>();
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             });
+
             builder.Services.AddValidatorsFromAssemblyContaining<RegisterCommandValidator>();
 
             builder.Services.AddDbContext<UserDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("UserConnection"));
             });
+
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<UserDbContext>()

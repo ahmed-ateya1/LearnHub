@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using BuildingBlocks.Messaging.Events;
+using MassTransit;
 
 namespace Users.API.User.RegisterUser
 {
