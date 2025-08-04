@@ -1,5 +1,6 @@
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Users.API.Data;
 using Users.API.User.RegisterUser;
@@ -33,6 +34,8 @@ namespace Users.API
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.AddMessageBroker(builder.Configuration);
 
             builder.Services.AddScoped<IUserService, UserService>();
             var app = builder.Build();
