@@ -1,7 +1,6 @@
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
 using BuildingBlocks.Messaging.MassTransit;
-using Microsoft.AspNetCore.Identity;
 using Users.API.Data;
 using Users.API.User.RegisterUser;
 
@@ -16,7 +15,6 @@ namespace Users.API
             // Add services to the container.
             builder.Services.AddAuthorization();
 
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddCarter();
             builder.Services.AddExceptionHandler<CustomExceptionHandler>();
@@ -31,8 +29,15 @@ namespace Users.API
 
             builder.Services.AddDbContext<UserDbContext>(options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("UserConnection"));
+                var constr = builder.Configuration.GetConnectionString("UserConnection")!
+                    .Replace("$POSTGRES_HOST", builder.Configuration["POSTGRES_HOST"])
+                    .Replace("$POSTGRES_USER", builder.Configuration["POSTGRES_USER"])
+                    .Replace("$POSTGRES_PASSWORD", builder.Configuration["POSTGRES_PASSWORD"])
+                    .Replace("$POSTGRES_DB", builder.Configuration["POSTGRES_DB"]);
+
+                options.UseNpgsql(constr);
             });
+
 
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
@@ -49,6 +54,12 @@ namespace Users.API
             {
                 app.MapOpenApi();
             }
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+            //    dbContext.Database.Migrate(); 
+            //}
+
 
             app.UseStaticFiles();
             app.UseHttpsRedirection();

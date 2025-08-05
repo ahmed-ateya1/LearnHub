@@ -15,12 +15,6 @@ namespace Notification.API
             // Add OpenAPI services
             builder.Services.AddOpenApi();
 
-            // Add OpenAPI services
-            builder.Services.AddOpenApi();
-
-            // Add OpenAPI services
-            builder.Services.AddOpenApi();
-
             builder.Services.AddMarten(opts =>
             {
                 var connectionString = builder.Configuration.GetConnectionString("NotificationConnection")!;

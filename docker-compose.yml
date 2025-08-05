@@ -1,0 +1,100 @@
+services:
+  usersapi:
+    image: usersapi
+    build:
+      context: src
+      dockerfile: Services/Users/Users.API/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - POSTGRES_HOST=postgresUserdb
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=UserDb
+    networks:
+      - UserNetwork
+      - LearnHubNetwork
+    depends_on:
+      - postgresUserdb
+
+  notificationapi:
+    image: notificationapi
+    build:
+      context: src
+      dockerfile: Services/Notifications/Notification.API/Dockerfile
+    ports:
+      - "6000:8080"
+    environment:
+      - POSTGRES_HOST=postgresNotificationdb
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=NotificationDb
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+    networks:
+      - NotificationNetwork
+      - LearnHubNetwork
+    depends_on:
+      - postgresNotificationdb
+      - rabbitmq
+
+  postgresUserdb:
+    image: postgres:latest
+    container_name: postgres_userdb
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: UserDb
+    ports:
+      - "5433:5432"
+    networks:
+      - UserNetwork
+    volumes:
+      - postgresUserdb:/var/lib/postgresql/data
+
+  postgresNotificationdb:
+    image: postgres:latest
+    container_name: postgres_notificationdb
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: NotificationDb
+    ports:
+      - "5434:5432"
+    networks:
+      - NotificationNetwork
+    volumes:
+      - postgresNotificationdb:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"  
+      - "15672:15672"
+    networks:
+      - LearnHubNetwork
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  postgresUserdb:
+  postgresNotificationdb:
+  rabbitmq_data:
+
+networks:
+  LearnHubNetwork:
+    driver: bridge
+  UserNetwork:
+    driver: bridge
+  NotificationNetwork:
+    driver: bridge
