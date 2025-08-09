@@ -40,7 +40,41 @@ services:
     depends_on:
       - postgresNotificationdb
       - rabbitmq
-
+  coursesapi:
+    image: coursesapi
+    build:
+      context: src
+      dockerfile: Services/Course/Course.API/Dockerfile
+    ports:
+      - "7000:8080"
+    networks:
+      - LearnHubNetwork
+      - CourseNetwork
+    environment:
+      - SQLSERVER_HOST=sqlserverCourse
+      - SQLSERVER_PORT=1433
+      - SQLSERVER_USER=sa
+      - SQLSERVER_PASSWORD=AhmedAteya12348@
+      - SQLSERVER_DATABASE=CourseDb
+      - UsersServiceName=usersapi
+      - UsersServicePort=8080
+    depends_on:
+       - sqlserverCourse
+       - usersapi
+      
+  sqlserverCourse:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserverCourse
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=AhmedAteya12348@
+    ports:
+      - "1433:1433"
+    networks:
+      - CourseNetwork
+    volumes:
+      - sqlserver_data:/var/opt/mssql
   postgresUserdb:
     image: postgres:latest
     container_name: postgres_userdb
@@ -90,6 +124,7 @@ volumes:
   postgresUserdb:
   postgresNotificationdb:
   rabbitmq_data:
+  sqlserver_data:
 
 networks:
   LearnHubNetwork:
@@ -97,4 +132,6 @@ networks:
   UserNetwork:
     driver: bridge
   NotificationNetwork:
+    driver: bridge
+  CourseNetwork:
     driver: bridge

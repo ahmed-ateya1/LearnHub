@@ -4,7 +4,7 @@
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/users/{userId:guid}", async (Guid userId, ISender sender) =>
+            app.MapGet("/api/users/{userId:guid}", async (Guid userId, ISender sender) =>
             {
                 var user = await sender.Send(new GetUserByIdQuery(userId));
                 return user is not null ? Results.Ok(user) : Results.NotFound();
