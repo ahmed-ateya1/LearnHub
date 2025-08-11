@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Course.Domain\Course.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Course\" />
-  </ItemGroup>
-
 </Project>

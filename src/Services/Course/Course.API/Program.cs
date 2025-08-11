@@ -34,6 +34,7 @@ namespace Course.API
 
             app.MapControllers();
 
+            app.UseStaticFiles();
             app.Run();
         }
     }

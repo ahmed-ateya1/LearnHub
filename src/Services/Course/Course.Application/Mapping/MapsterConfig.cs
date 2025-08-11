@@ -8,12 +8,18 @@ namespace Course.Application.Mapping
         {
             TypeAdapterConfig<Domain.Models.Course, CourseResponse>
                 .NewConfig()
-                .Map(dest => dest.AverageRating, src => src.Reviews.Average(x => x.Rating))
-                .Map(dest => dest.ReviewCount, src => src.Reviews.Count())
-                .Map(dest => dest.CategoryName, src => src.Category.Name);
+                .Map(dest => dest.AverageRating,
+                     src => src.Reviews != null && src.Reviews.Any()
+                     ? src.Reviews.Average(x => x.Rating)
+                     : 0)
+                .Map(dest => dest.ReviewCount,
+                     src => src.Reviews != null ? src.Reviews.Count() : 0)
+                .Map(dest => dest.CategoryName,
+                      src => src.Category != null ? src.Category.Name : string.Empty);
 
-
-
+            TypeAdapterConfig<CourseAddRequest, Domain.Models.Course>
+                .NewConfig()
+                .Map(dest => dest.Id, src => Guid.NewGuid());
         }
     }
 }

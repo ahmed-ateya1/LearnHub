@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Course.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -227,6 +229,22 @@ namespace Course.Infrastructure.Migrations
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "BaseCategoryId", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("1ab2568e-5c0f-409e-b762-3e3e0fc2b1e3"), null, "Design" },
+                    { new Guid("a4adafd3-9899-43fb-b326-8bc2d041335a"), null, "Marketing" },
+                    { new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"), null, "Programming & Development" },
+                    { new Guid("c9c068fb-2a9c-4488-b4b5-1004e9c4a801"), null, "Business" },
+                    { new Guid("1fdcd95f-24b8-419e-9a16-bf8bef7af3d3"), new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"), "Web Development" },
+                    { new Guid("8b20252d-936f-4136-9c12-bb1932d802d1"), new Guid("c9c068fb-2a9c-4488-b4b5-1004e9c4a801"), "Management" },
+                    { new Guid("a4e55167-a17f-46c4-87d8-f40e1cedd130"), new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"), "Data Science" },
+                    { new Guid("bc108ec8-8885-4d9c-a544-fb8f6b12e064"), new Guid("c9c068fb-2a9c-4488-b4b5-1004e9c4a801"), "Finance" },
+                    { new Guid("e9e34b50-1baa-46b2-9fb5-04c6090abb08"), new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"), "Mobile Development" }
                 });
 
             migrationBuilder.CreateIndex(

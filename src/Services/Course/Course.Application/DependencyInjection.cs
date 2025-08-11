@@ -1,5 +1,9 @@
-﻿using Course.Application.HttpClient;
+﻿using BuildingBlocks.Behaviors;
+using Course.Application.Course.Commands.CreateCourse;
+using Course.Application.HttpClient;
 using Course.Application.Mapping;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +11,7 @@ namespace Course.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services , IConfiguration configuration)
+        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             // Register application services here
             services.AddHttpContextAccessor();
@@ -16,14 +20,26 @@ namespace Course.Application
             services.AddScoped<IGetUserById, GetUserById>();
             services.AddDistributedMemoryCache();
             MapsterConfig.Configure();
+
+            // Add debugging to see what values are being used
+            var serviceName = configuration["UsersServiceName"] ?? "usersapi";
+            var servicePort = configuration["UsersServicePort"] ?? "8080";
+
             services.AddHttpClient("UserService", client =>
             {
-                client.BaseAddress = new Uri(
-                    $"https://{configuration["UsersServiceName"]}:{configuration["UsersServicePort"]}");
+                var baseAddress = $"http://{serviceName}:{servicePort}";
+                client.BaseAddress = new Uri(baseAddress);
+
+                Console.WriteLine($"HttpClient configured with base address: {baseAddress}");
             });
 
+            services.AddFluentValidationAutoValidation();
 
-            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<DependencyInjection>());
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblyContaining<CreateCourseCommand>();
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            });
             return services;
         }
     }

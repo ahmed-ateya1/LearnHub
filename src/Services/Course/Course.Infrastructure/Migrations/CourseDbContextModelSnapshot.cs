@@ -77,6 +77,58 @@ namespace Course.Infrastructure.Migrations
                     b.HasIndex("BaseCategoryId");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"),
+                            Name = "Programming & Development"
+                        },
+                        new
+                        {
+                            Id = new Guid("c9c068fb-2a9c-4488-b4b5-1004e9c4a801"),
+                            Name = "Business"
+                        },
+                        new
+                        {
+                            Id = new Guid("1ab2568e-5c0f-409e-b762-3e3e0fc2b1e3"),
+                            Name = "Design"
+                        },
+                        new
+                        {
+                            Id = new Guid("a4adafd3-9899-43fb-b326-8bc2d041335a"),
+                            Name = "Marketing"
+                        },
+                        new
+                        {
+                            Id = new Guid("1fdcd95f-24b8-419e-9a16-bf8bef7af3d3"),
+                            BaseCategoryId = new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"),
+                            Name = "Web Development"
+                        },
+                        new
+                        {
+                            Id = new Guid("e9e34b50-1baa-46b2-9fb5-04c6090abb08"),
+                            BaseCategoryId = new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"),
+                            Name = "Mobile Development"
+                        },
+                        new
+                        {
+                            Id = new Guid("a4e55167-a17f-46c4-87d8-f40e1cedd130"),
+                            BaseCategoryId = new Guid("b5a3c6b0-9cbf-49b7-9c84-75385d694eac"),
+                            Name = "Data Science"
+                        },
+                        new
+                        {
+                            Id = new Guid("8b20252d-936f-4136-9c12-bb1932d802d1"),
+                            BaseCategoryId = new Guid("c9c068fb-2a9c-4488-b4b5-1004e9c4a801"),
+                            Name = "Management"
+                        },
+                        new
+                        {
+                            Id = new Guid("bc108ec8-8885-4d9c-a544-fb8f6b12e064"),
+                            BaseCategoryId = new Guid("c9c068fb-2a9c-4488-b4b5-1004e9c4a801"),
+                            Name = "Finance"
+                        });
                 });
 
             modelBuilder.Entity("Course.Domain.Models.Course", b =>
