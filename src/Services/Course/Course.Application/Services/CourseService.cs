@@ -1,9 +1,5 @@
 ﻿using Course.Application.HttpClient;
-using Course.Domain.Models;
-using Mapster;
-using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
-
+using Course.Domain.Enums;
 namespace Course.Application.Services
 {
     public class CourseService(
@@ -170,6 +166,29 @@ namespace Course.Application.Services
             var response = course.Adapt<CourseResponse>();
             logger.LogInformation("Course updated successfully: {CourseId}", response.Id);
             return response;
+        }
+
+        public async Task<bool> UpdateCourseStatusAsync(Guid id, CourseStatus courseStatus)
+        {
+            var course = await unitOfWork.Repository<Domain.Models.Course>()
+                .GetByAsync(c => c.Id == id)
+                ?? throw new CourseNotFoundException("Course not found");
+
+            if (course == null)
+                throw new CourseNotFoundException("Course not found");
+
+            course.CourseStatus = courseStatus;
+
+            await ExecuteWithTransactionAsync(async () =>
+            {
+                logger.LogInformation("Updating course status for course ID: {CourseId} to {Status}", id, courseStatus);
+                await unitOfWork.Repository<Domain.Models.Course>().UpdateAsync(course);
+            });
+
+            logger.LogInformation("Course status updated successfully for course ID: {CourseId}", id);
+
+            return true;
+
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Course.Application.Dtos.CategoryDto
 {
-    public class CategoryUpdateRequst
+    public class CategoryUpdateRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

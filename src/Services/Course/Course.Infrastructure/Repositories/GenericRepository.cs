@@ -148,6 +148,7 @@ namespace Course.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(model));
 
             _dbSet.Update(model);
+            await SaveAsync();
             return model;
         }
     }

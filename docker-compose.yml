@@ -28,6 +28,8 @@ services:
     ports:
       - "6000:8080"
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
       - POSTGRES_HOST=postgresNotificationdb
       - POSTGRES_PORT=5432
       - POSTGRES_USER=postgres
@@ -53,6 +55,8 @@ services:
       - LearnHubNetwork
       - CourseNetwork
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
       - SQLSERVER_HOST=sqlserverCourse
       - SQLSERVER_PORT=1433
       - SQLSERVER_USER=sa

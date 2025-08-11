@@ -1,3 +1,4 @@
+using BuildingBlocks.Exceptions.Handler;
 using Course.Application;
 using Course.Infrastructure;
 
@@ -13,6 +14,8 @@ namespace Course.API
             builder.Services
                 .AddInfrastructure(builder.Configuration)
                 .AddApplication(builder.Configuration);
+
+            builder.Services.AddExceptionHandler<CustomExceptionHandler>();
                 
 
             builder.Services.AddControllers();
@@ -35,6 +38,8 @@ namespace Course.API
             app.MapControllers();
 
             app.UseStaticFiles();
+
+            app.UseExceptionHandler(options => { });
             app.Run();
         }
     }
