@@ -20,6 +20,7 @@ namespace Course.Application
             services.AddScoped<IGetUserById, GetUserById>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISectionService, SectionService>();
+            services.AddScoped<ILectureService, LectureService>();
             services.AddDistributedMemoryCache();
             MapsterConfig.Configure();
 

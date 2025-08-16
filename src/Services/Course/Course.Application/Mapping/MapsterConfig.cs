@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using Course.Application.Dtos.LectureDto;
+using Mapster;
 
 namespace Course.Application.Mapping
 {
@@ -20,6 +21,11 @@ namespace Course.Application.Mapping
             TypeAdapterConfig<CourseAddRequest, Domain.Models.Course>
                 .NewConfig()
                 .Map(dest => dest.Id, src => Guid.NewGuid());
+
+            TypeAdapterConfig<Lecture, LectureResponse>
+                .NewConfig()
+                .Map(dest => dest.QuizCount, src => src.Quizzes.Count)
+                .Map(dest => dest.SectionName, src => src.Section.Title);
         }
     }
 }
