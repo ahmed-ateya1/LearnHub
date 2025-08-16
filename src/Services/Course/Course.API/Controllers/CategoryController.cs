@@ -1,12 +1,12 @@
-﻿using Course.Application.Categories.Commands.CreateCategory;
-using Course.Application.Categories.Commands.DeleteCategory;
-using Course.Application.Categories.Commands.UpdateCategory;
-using Course.Application.Categories.Queries.GetBaseCategories;
-using Course.Application.Categories.Queries.GetCategories;
-using Course.Application.Categories.Queries.GetCategoriesByName;
-using Course.Application.Categories.Queries.GetCategoryById;
-using Course.Application.Categories.Queries.GetSubCategories;
-using Course.Application.Dtos.CategoryDto;
+﻿using Course.Application.Dtos.CategoryDto;
+using Course.Application.Slices.Categories.Commands.CreateCategory;
+using Course.Application.Slices.Categories.Commands.DeleteCategory;
+using Course.Application.Slices.Categories.Commands.UpdateCategory;
+using Course.Application.Slices.Categories.Queries.GetBaseCategories;
+using Course.Application.Slices.Categories.Queries.GetCategories;
+using Course.Application.Slices.Categories.Queries.GetCategoriesByName;
+using Course.Application.Slices.Categories.Queries.GetCategoryById;
+using Course.Application.Slices.Categories.Queries.GetSubCategories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

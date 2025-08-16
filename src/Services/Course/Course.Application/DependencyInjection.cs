@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Behaviors;
-using Course.Application.Course.Commands.CreateCourse;
 using Course.Application.HttpClient;
 using Course.Application.Mapping;
+using Course.Application.Slices.Courses.Commands.CreateCourse;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +19,7 @@ namespace Course.Application
             services.AddScoped<IFileServices, FileService>();
             services.AddScoped<IGetUserById, GetUserById>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ISectionService, SectionService>();
             services.AddDistributedMemoryCache();
             MapsterConfig.Configure();
 

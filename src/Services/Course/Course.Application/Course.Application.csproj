@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Course.Domain\Course.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\ReviewDto\" />
+  </ItemGroup>
+
 </Project>
