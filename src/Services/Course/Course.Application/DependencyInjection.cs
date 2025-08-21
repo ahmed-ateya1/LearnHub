@@ -21,6 +21,7 @@ namespace Course.Application
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISectionService, SectionService>();
             services.AddScoped<ILectureService, LectureService>();
+            services.AddScoped<IQuizService, QuizService>();
             services.AddDistributedMemoryCache();
             MapsterConfig.Configure();
 

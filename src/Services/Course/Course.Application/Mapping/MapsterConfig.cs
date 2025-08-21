@@ -1,4 +1,5 @@
 ﻿using Course.Application.Dtos.LectureDto;
+using Course.Application.Dtos.QuizDto;
 using Mapster;
 
 namespace Course.Application.Mapping
@@ -26,6 +27,11 @@ namespace Course.Application.Mapping
                 .NewConfig()
                 .Map(dest => dest.QuizCount, src => src.Quizzes.Count)
                 .Map(dest => dest.SectionName, src => src.Section.Title);
+
+
+            TypeAdapterConfig<Quiz, QuizResponse>
+                .NewConfig()
+                .Map(dest => dest.LectureTitle, src => src.Lecture.Title);
         }
     }
 }

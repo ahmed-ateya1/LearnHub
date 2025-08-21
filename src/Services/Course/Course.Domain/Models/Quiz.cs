@@ -2,7 +2,7 @@
 {
     public class Quiz
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Title { get; set; }
         public int TotalMarks { get; set; }
         public int PassingMarks { get; set; }
