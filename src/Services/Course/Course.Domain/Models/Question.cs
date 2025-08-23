@@ -4,7 +4,7 @@ namespace Course.Domain.Models
 {
     public class Question
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
         public string QuestionText { get; set; }
         public QuestionType QuestionType { get; set; }
         public int Marks { get; set; }
