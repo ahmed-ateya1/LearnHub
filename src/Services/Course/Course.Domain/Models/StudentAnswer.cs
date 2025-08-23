@@ -2,7 +2,7 @@
 {
     public class StudentAnswer
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public Guid StudentId { get; set; }
 
         public Guid QuestionId { get; set; }

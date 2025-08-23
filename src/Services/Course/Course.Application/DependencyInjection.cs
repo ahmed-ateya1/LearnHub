@@ -23,15 +23,17 @@ namespace Course.Application
             services.AddScoped<ILectureService, LectureService>();
             services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IStudentAnswerService, StudentAnswerService>();  
             services.AddDistributedMemoryCache();
             MapsterConfig.Configure();
 
             // Add debugging to see what values are being used
-            var serviceName = configuration["UsersServiceName"] ?? "usersapi";
-            var servicePort = configuration["UsersServicePort"] ?? "8080";
+          
 
             services.AddHttpClient("UserService", client =>
             {
+                var serviceName = configuration["UsersServiceName"] ?? "usersapi";
+                var servicePort = configuration["UsersServicePort"] ?? "8080";
                 var baseAddress = $"http://{serviceName}:{servicePort}";
                 client.BaseAddress = new Uri(baseAddress);
 
