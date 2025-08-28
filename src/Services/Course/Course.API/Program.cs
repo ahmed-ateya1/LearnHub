@@ -1,6 +1,7 @@
 using BuildingBlocks.Exceptions.Handler;
 using Course.Application;
 using Course.Infrastructure;
+using BuildingBlocks.Messaging.MassTransit;
 
 namespace Course.API
 {
@@ -15,6 +16,7 @@ namespace Course.API
                 .AddInfrastructure(builder.Configuration)
                 .AddApplication(builder.Configuration);
 
+            builder.Services.AddMessageBroker(builder.Configuration);
             builder.Services.AddExceptionHandler<CustomExceptionHandler>();
                 
 

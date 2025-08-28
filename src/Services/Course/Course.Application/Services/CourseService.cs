@@ -1,11 +1,14 @@
-﻿using Course.Application.HttpClient;
+﻿using BuildingBlocks.Messaging.Events;
+using Course.Application.HttpClient;
 using Course.Domain.Enums;
+using MassTransit;
 namespace Course.Application.Services
 {
     public class CourseService(
         IUnitOfWork unitOfWork,
         IFileServices fileService,
         ILogger<CourseService> logger,
+        IPublishEndpoint publish,
         IGetUserById getUser) : ICourseService
     {
         private async Task ExecuteWithTransactionAsync(Func<Task> action)
@@ -187,6 +190,17 @@ namespace Course.Application.Services
 
             logger.LogInformation("Course status updated successfully for course ID: {CourseId}", id);
 
+            if(courseStatus == CourseStatus.Published)
+            {
+                await publish.Publish(new CoursePublishedEvent(
+                    course.Id ,
+                    course.Title ,
+                    course.Description, 
+                    course.Price ,
+                    course.InstructorId ,
+                    course.CategoryId,DateTime.UtcNow));
+                logger.LogInformation("Published CoursePublishedEvent for course ID: {CourseId}", id);
+            }
             return true;
 
         }

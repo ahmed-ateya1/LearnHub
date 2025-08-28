@@ -2,7 +2,7 @@
 {
     public class Review
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Content { get; set; }
         public int Rating { get; set; } 
         public DateTime CreatedAt { get; set; }

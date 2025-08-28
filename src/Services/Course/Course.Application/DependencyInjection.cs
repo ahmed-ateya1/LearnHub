@@ -24,6 +24,7 @@ namespace Course.Application
             services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IStudentAnswerService, StudentAnswerService>();  
+            services.AddScoped<IReviewService, ReviewService>();
             services.AddDistributedMemoryCache();
             MapsterConfig.Configure();
 
