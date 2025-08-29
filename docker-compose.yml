@@ -150,7 +150,27 @@ services:
       - NotificationNetwork
     volumes:
       - postgresNotificationdb:/var/lib/postgresql/data
-
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - LearnHubNetwork
+    ports:
+      - "6379:6379"
+  shoppingcart-api:
+    image: shoppingcartapi
+    build:
+      context: src
+      dockerfile: Services/Carts/Cart.API/Dockerfile
+    container_name: shoppingcart-api
+    networks:
+      - LearnHubNetwork
+    ports:
+      - "9000:8080"
+    depends_on:
+      - redis
+    environment:
+      - ConnectionStrings__Redis=redis:6379
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
