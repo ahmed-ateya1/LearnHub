@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   usersapi:
     image: usersapi
@@ -44,6 +46,7 @@ services:
     depends_on:
       - postgresNotificationdb
       - rabbitmq
+
   coursesapi:
     image: coursesapi
     build:
@@ -67,10 +70,32 @@ services:
     depends_on:
        - sqlserverCourse
        - usersapi
-      
+
+  orderapi:
+    image: orderapi
+    build:
+      context: src
+      dockerfile: Services/Orders/Order.API/Dockerfile
+    ports:
+      - "8000:8080"
+    networks:
+      - LearnHubNetwork
+      - OrderNetwork
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - SQLSERVER_HOST=sqlserverOrder
+      - SQLSERVER_PORT=1433
+      - SQLSERVER_USER=sa
+      - SQLSERVER_PASSWORD=AhmedAteya12348@
+      - SQLSERVER_DATABASE=OrderDb
+    depends_on:
+       - sqlserverOrder
+       - usersapi
+
   sqlserverCourse:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserverCourse
+    container_name: sqlserver_course
     restart: always
     environment:
       - ACCEPT_EULA=Y
@@ -80,7 +105,22 @@ services:
     networks:
       - CourseNetwork
     volumes:
-      - sqlserver_data:/var/opt/mssql
+      - sqlserverCourse_data:/var/opt/mssql
+
+  sqlserverOrder:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_order
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=AhmedAteya12348@
+    ports:
+      - "1434:1433"  
+    networks:
+      - OrderNetwork
+    volumes:
+      - sqlserverOrder_data:/var/opt/mssql
+
   postgresUserdb:
     image: postgres:latest
     container_name: postgres_userdb
@@ -130,7 +170,8 @@ volumes:
   postgresUserdb:
   postgresNotificationdb:
   rabbitmq_data:
-  sqlserver_data:
+  sqlserverCourse_data:
+  sqlserverOrder_data:
 
 networks:
   LearnHubNetwork:
@@ -140,4 +181,6 @@ networks:
   NotificationNetwork:
     driver: bridge
   CourseNetwork:
+    driver: bridge
+  OrderNetwork:
     driver: bridge
