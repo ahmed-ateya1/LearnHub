@@ -6,9 +6,9 @@ using Notification.API.Hubs;
 namespace Notification.API.Consumers
 {
     public class OrderPlacedConsumer(IDocumentSession session , IHubContext<NotificationHub> hubContext)
-        : IConsumer<OrderPlacedEvent>
+        : IConsumer<OrderCompletedEvent>
     {
-        public async Task Consume(ConsumeContext<OrderPlacedEvent> context)
+        public async Task Consume(ConsumeContext<OrderCompletedEvent> context)
         {
             var message = context.Message;
 

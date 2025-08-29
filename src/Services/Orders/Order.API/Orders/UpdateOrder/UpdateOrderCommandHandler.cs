@@ -42,10 +42,11 @@ namespace Order.API.Orders.UpdateOrder
             await db.SaveChangesAsync();
 
             await publish.Publish(
-                new OrderPlacedEvent(
+                new OrderCompletedEvent(
                     order.Id,
                     order.UserId,
                     order.OrderStatus.ToString(),
+                    order.OrderItems.Select(oi=>oi.CourseId).ToList(),
                     order.CreatedAt
                 ),
                 cancellationToken

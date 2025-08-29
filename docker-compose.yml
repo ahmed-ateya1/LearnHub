@@ -92,7 +92,42 @@ services:
     depends_on:
        - sqlserverOrder
        - usersapi
+  
+  enrollmentapi:
+    image: enrollmentapi
+    build:
+      context: src
+      dockerfile: Services/Enrollement/Enrollement.API/Dockerfile
+    ports:
+      - "5555:8080"
+    networks: 
+      - LearnHubNetwork
+      - enrollmentNetwork
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - POSTGRES_HOST=postgresEnrollmentdb
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=enrollmentDb
+    depends_on:
+      - postgresEnrollmentdb
 
+  postgresEnrollmentdb:
+    image: postgres:latest
+    container_name: postgres_enrollmentdb
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: enrollmentDb
+    ports:
+      - "5435:5432"   
+    networks:
+      - enrollmentNetwork
+    volumes:
+      - postgresEnrollmentdb:/var/lib/postgresql/data
   sqlserverCourse:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver_course
@@ -192,6 +227,7 @@ volumes:
   rabbitmq_data:
   sqlserverCourse_data:
   sqlserverOrder_data:
+  postgresEnrollmentdb:
 
 networks:
   LearnHubNetwork:
@@ -203,4 +239,6 @@ networks:
   CourseNetwork:
     driver: bridge
   OrderNetwork:
+    driver: bridge
+  enrollmentNetwork:
     driver: bridge
