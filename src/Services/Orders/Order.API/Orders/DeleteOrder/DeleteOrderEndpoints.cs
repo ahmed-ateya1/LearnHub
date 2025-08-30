@@ -1,6 +1,5 @@
 ﻿using Carter;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Order.API.Orders.DeleteOrder
 {
@@ -8,7 +7,7 @@ namespace Order.API.Orders.DeleteOrder
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/orders/{orderId:guid}", async (Guid orderId, ISender sender) =>
+            app.MapDelete("/api/orders/{orderId:guid}", async (Guid orderId, ISender sender) =>
             {
                 var result = await sender.Send(new DeleteOrderCommand(orderId));
                 if (!result)

@@ -8,7 +8,7 @@ namespace Order.API.Orders.GetOrders
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/orders", async (ISender sender) =>
+            app.MapGet("/api/orders", async (ISender sender) =>
             {
                 var result = await sender.Send(new GetOrdersQuery());
                 if (result == null || !result.Any())

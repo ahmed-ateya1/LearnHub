@@ -9,7 +9,7 @@ namespace Order.API.Orders.UpdateOrder
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPut("/orders", async ([FromBody] OrderUpdateRequest request, ISender sender) =>
+            app.MapPut("/api/orders", async ([FromBody] OrderUpdateRequest request, ISender sender) =>
             {
                 var result = await sender.Send(new UpdateOrderCommand(request));
                 if (result == null)

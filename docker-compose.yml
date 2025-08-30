@@ -206,6 +206,7 @@ services:
       - redis
     environment:
       - ConnectionStrings__Redis=redis:6379
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -220,7 +221,23 @@ services:
       - LearnHubNetwork
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-
+  yarp-gateway:
+    image: yarpgateway
+    build:
+      context: src
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+    container_name: yarpgateway
+    ports:
+      - "1000:8080"
+    networks:
+      - LearnHubNetwork
+    depends_on:
+      - usersapi
+      - notificationapi
+      - coursesapi
+      - orderapi
+      - enrollmentapi
+      - shoppingcart-api
 volumes:
   postgresUserdb:
   postgresNotificationdb:
